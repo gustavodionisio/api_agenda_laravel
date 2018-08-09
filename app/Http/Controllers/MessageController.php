@@ -20,7 +20,6 @@ class MessageController extends BaseController
     public function getUserMessages($user_id)
     {
         $messages = $this->message->getUserMessages($user_id);
-
         if (!$messages) {
             $response = Response::create(['response' => 'Este usuário não possui mensagens!'], Response::HTTP_NOT_FOUND);
         } else {
@@ -57,7 +56,7 @@ class MessageController extends BaseController
 
     public function updateMessage($id)
     {
-        $inputs = $this->request->post();
+        $inputs = $this->request->only('descricao');
         $validation = validator($inputs, $this->message->message->rules, $this->message->message->messages);
 
         // falha na validação

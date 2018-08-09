@@ -4,12 +4,12 @@ namespace App\Repositories;
 
 use App\Message;
 use App\Repositories\Contracts\MessageRepositoryInterface;
-use App\User;
 
-class UserRepositoryEloquent implements MessageRepositoryInterface {
+class MessageRepositoryEloquent implements MessageRepositoryInterface
+{
     public function __construct(Message $message)
     {
-        $this->$message = $message;
+        $this->message = $message;
     }
 
     public function saveMessage($input)
@@ -24,7 +24,7 @@ class UserRepositoryEloquent implements MessageRepositoryInterface {
     private function getMessage($id)
     {
         $message = $this->message->find($id);
-        if(is_null($message)){
+        if (is_null($message)) {
             return false;
         }
 
@@ -33,17 +33,18 @@ class UserRepositoryEloquent implements MessageRepositoryInterface {
 
     public function getUserMessages($user_id)
     {
-        $message = $this->message->where('user_id', $user_id);
-        if(is_null($message)){
+        $message = $this->message->where('user_id', $user_id)->get();
+        if (is_null($message)) {
             return false;
         }
 
-        return $message;    }
+        return $message;
+    }
 
     public function deleteMessage($id)
     {
         $message = $this->message->find($id);
-        if(is_null($message)){
+        if (is_null($message)) {
             return false;
         }
 
@@ -53,13 +54,13 @@ class UserRepositoryEloquent implements MessageRepositoryInterface {
     public function updateMessage($id, $input)
     {
         $message = $this->getMessage($id);
-        if(!$message){
+        if (!$message) {
             return false;
         }
 
         $message->fill($input);
 
-        if($message->save()){
+        if ($message->save()) {
             return $message;
         }
 

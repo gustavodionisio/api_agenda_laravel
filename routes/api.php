@@ -30,7 +30,7 @@ Route::group(['prefix' => 'user'], function () {
 
 Route::group(['prefix' => 'message'], function () {
 
-    Route::get('{id}', ['uses' => 'MessageController@getUserMessages']);
+    Route::get('{user_id}', ['uses' => 'MessageController@getUserMessages']);
 
     Route::post('', ['uses' => 'MessageController@saveMessage']);
 

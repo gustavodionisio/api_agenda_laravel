@@ -10,7 +10,7 @@ class Message extends Model
 
     public $rules = [
         'descricao' => ['required', 'max:100'],
-        'user_id' => ['required', 'exists:users,id']
+        'user_id' => ['sometimes', 'required', 'exists:users,id']
     ];
 
     public $messages = [
