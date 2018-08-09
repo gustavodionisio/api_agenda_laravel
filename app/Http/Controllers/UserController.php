@@ -35,7 +35,27 @@ class UserController extends BaseController
 
     public function saveUser()
     {
-        return Response::create($this->user->saveUser($this->request->post()), Response::HTTP_OK);
+        $inputs = $this->request->post();
+        $validation = validator($inputs, $this->user->user->rules, $this->user->user->messages);
+
+        // falha na validação
+        if ($validation->fails()) {
+            $response = Response::create([
+                'response' => 'Erro ao tentar alterar usuário!',
+                'errors' => $validation->errors()->getMessages()
+            ], Response::HTTP_BAD_REQUEST);
+        } else {
+            $user = $this->user->saveUser($inputs);
+
+            // falha  ao realizar update do usuário
+            if (!$user) {
+                $response = Response::create(['response' => 'Erro ao tentar alterar usuário!'], Response::HTTP_NOT_FOUND);
+            } else {
+                $response = Response::create($user, Response::HTTP_OK);
+            }
+        }
+
+        return $response;
     }
 
     public function updateUser($id)
